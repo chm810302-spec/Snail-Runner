@@ -23,6 +23,7 @@ export function Comments({ postId }: { postId: string }) {
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const { user, profile, signInWithGoogle } = useFirebase();
 
   useEffect(() => {
@@ -40,8 +41,16 @@ export function Comments({ postId }: { postId: string }) {
         commentsData.push({ id: doc.id, ...doc.data() } as Comment);
       });
       setComments(commentsData);
-    }, (error) => {
-      handleFirestoreError(error, OperationType.LIST, path);
+    }, (error: any) => {
+      const errorString = error?.message?.toLowerCase() || String(error).toLowerCase();
+      if (errorString.includes("missing or insufficient permissions")) {
+        setErrorMsg("You don't have permission to view comments.");
+      } else {
+        setErrorMsg("Failed to load comments. Please check your connection.");
+      }
+      try {
+        handleFirestoreError(error, OperationType.LIST, path);
+      } catch (e) {}
     });
 
     return () => unsubscribe();
@@ -49,7 +58,13 @@ export function Comments({ postId }: { postId: string }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !newComment.trim() || !db) return;
+    setErrorMsg("");
+
+    if (!user || !db) return;
+    if (!newComment.trim()) {
+      setErrorMsg("Please write a comment before posting.");
+      return;
+    }
 
     setIsSubmitting(true);
     const path = `posts/${postId}/comments`;
@@ -68,8 +83,18 @@ export function Comments({ postId }: { postId: string }) {
       });
       
       setNewComment("");
-    } catch (error) {
-      handleFirestoreError(error, OperationType.CREATE, path);
+    } catch (error: any) {
+      const errorString = error?.message?.toLowerCase() || String(error).toLowerCase();
+      if (errorString.includes("missing or insufficient permissions")) {
+        setErrorMsg("You don't have permission to post a comment.");
+      } else if (errorString.includes("offline") || errorString.includes("network")) {
+        setErrorMsg("Network error. Please check your internet connection and try again.");
+      } else {
+        setErrorMsg("An unexpected error occurred while posting your comment.");
+      }
+      try {
+        handleFirestoreError(error, OperationType.CREATE, path);
+      } catch (e) {}
     } finally {
       setIsSubmitting(false);
     }
@@ -78,12 +103,21 @@ export function Comments({ postId }: { postId: string }) {
   const handleDelete = async (commentId: string) => {
     if (!user || !db) return;
     if (!confirm("Are you sure you want to delete this comment?")) return;
-
+    
+    setErrorMsg("");
     const path = `posts/${postId}/comments/${commentId}`;
     try {
       await deleteDoc(doc(db, "posts", postId, "comments", commentId));
-    } catch (error) {
-      handleFirestoreError(error, OperationType.DELETE, path);
+    } catch (error: any) {
+      const errorString = error?.message?.toLowerCase() || String(error).toLowerCase();
+      if (errorString.includes("missing or insufficient permissions")) {
+        setErrorMsg("You don't have permission to delete this comment.");
+      } else {
+        setErrorMsg("Failed to delete comment. Please try again.");
+      }
+      try {
+        handleFirestoreError(error, OperationType.DELETE, path);
+      } catch (e) {}
     }
   };
 
@@ -105,6 +139,15 @@ export function Comments({ postId }: { postId: string }) {
         <MessageCircle className="h-6 w-6 text-orange-500" />
         <h3 className="text-2xl font-bold text-slate-900">Comments ({comments.length})</h3>
       </div>
+
+      {errorMsg && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl flex items-start gap-3 text-red-700">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 shrink-0 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+          </svg>
+          <div className="text-sm font-medium">{errorMsg}</div>
+        </div>
+      )}
 
       {user ? (
         <form onSubmit={handleSubmit} className="mb-12">

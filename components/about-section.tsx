@@ -19,7 +19,7 @@ export function AboutSection() {
           >
             <div className="relative aspect-[4/5] rounded-3xl overflow-hidden shadow-2xl max-w-md mx-auto lg:mx-0">
               <Image
-                src="https://picsum.photos/seed/runner-portrait/800/1000"
+                src="/profile.jpg"
                 alt="Portrait of the author running"
                 fill
                 className="object-cover"
@@ -44,7 +44,7 @@ export function AboutSection() {
               I&apos;m a runner in my mid-40s who started running in 2021. For me, running isn&apos;t about races or fast paces—it&apos;s about joy and routine. 
             </p>
             <p className="text-lg text-slate-600 mb-8 leading-relaxed">
-              My philosophy is simple: <strong className="text-orange-500 font-semibold">아프지 않고 길게 오래 달리자</strong> (Run long, run healthy, pain-free). This space is my personal diary where I share my thoughts, gear reviews, and the routines that keep me on the road.
+              My philosophy is simple: <strong className="text-orange-500 font-semibold">to run long, run healthy, and stay pain-free</strong>. This space is my personal diary where I share my thoughts, gear reviews, and the routines that keep me on the road.
             </p>
             
             <Link 

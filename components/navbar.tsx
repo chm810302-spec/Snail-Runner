@@ -91,6 +91,15 @@ export function Navbar() {
                         >
                           My Profile
                         </Link>
+                        {(profile?.role === 'admin' || user.email === 'chm810302@gmail.com') && (
+                          <Link 
+                            href="/admin" 
+                            onClick={() => setIsProfileOpen(false)}
+                            className="block px-4 py-2 text-sm text-slate-600 hover:bg-orange-50 hover:text-orange-600 transition-colors"
+                          >
+                            Write Post
+                          </Link>
+                        )}
                         <button 
                           onClick={() => {
                             logout();
@@ -190,6 +199,15 @@ export function Navbar() {
                   >
                     My Profile
                   </Link>
+                  {(profile?.role === 'admin' || user.email === 'chm810302@gmail.com') && (
+                    <Link
+                      href="/admin"
+                      onClick={() => setIsOpen(false)}
+                      className="block px-3 py-3 text-base font-medium text-orange-600 hover:bg-orange-50 rounded-xl transition-colors"
+                    >
+                      Write Post
+                    </Link>
+                  )}
                   <button
                     onClick={() => {
                       logout();
