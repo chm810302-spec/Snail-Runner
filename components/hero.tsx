@@ -1,8 +1,7 @@
 "use client";
 
 import { motion } from "motion/react";
-import { ArrowRight, HeartPulse, ShieldCheck, Timer, Activity } from "lucide-react";
-import Image from "next/image";
+import { Snail, Cloud } from "lucide-react";
 
 export function Hero() {
   return (
@@ -34,30 +33,70 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="relative lg:h-[600px] flex items-center justify-center"
           >
-            <div className="relative w-full aspect-square max-w-[500px] rounded-3xl overflow-hidden shadow-2xl shadow-orange-500/20 border-8 border-white transform rotate-3 hover:rotate-0 transition-transform duration-500">
-              <Image
-                src="https://picsum.photos/seed/running-happy/800/800"
-                alt="Happy runner"
-                fill
-                className="object-cover"
-                referrerPolicy="no-referrer"
-              />
+            <div className="relative w-full aspect-square max-w-[500px] rounded-full bg-gradient-to-b from-white to-orange-50 overflow-hidden shadow-2xl shadow-orange-500/20 border-8 border-white flex items-center justify-center">
+              
+              {/* Sun */}
+              <div className="absolute top-12 right-16 w-20 h-20 bg-amber-300 rounded-full blur-[2px] opacity-80" />
+
+              {/* Clouds */}
+              <motion.div 
+                animate={{ x: [0, -40, 0] }} 
+                transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-24 right-32 text-orange-200/60"
+              >
+                <Cloud size={80} fill="currentColor" />
+              </motion.div>
+              <motion.div 
+                animate={{ x: [0, 50, 0] }} 
+                transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+                className="absolute top-32 left-16 text-orange-200/40"
+              >
+                <Cloud size={60} fill="currentColor" />
+              </motion.div>
+
+              {/* Ground / Track */}
+              <div className="absolute bottom-0 left-0 right-0 h-[35%] bg-gradient-to-t from-orange-200/50 to-orange-100/50 border-t-4 border-orange-300 border-dashed"></div>
+
+              {/* The Snail & Speed lines */}
+              <motion.div
+                animate={{ 
+                  x: [-350, 350],
+                }}
+                transition={{ 
+                  x: { duration: 15, repeat: Infinity, ease: "linear" },
+                }}
+                className="absolute bottom-[22%] flex items-center"
+              >
+                {/* Speed lines */}
+                <div className="relative right-2 flex flex-col gap-3 opacity-60">
+                  <motion.div
+                    animate={{ opacity: [0, 1, 0], scaleX: [0.5, 1, 0.5], originX: 1 }}
+                    transition={{ duration: 0.8, repeat: Infinity, ease: "linear" }}
+                    className="w-10 h-1.5 bg-orange-400 rounded-full"
+                  />
+                  <motion.div
+                    animate={{ opacity: [0, 1, 0], scaleX: [0.5, 1, 0.5], originX: 1 }}
+                    transition={{ duration: 1.2, delay: 0.3, repeat: Infinity, ease: "linear" }}
+                    className="w-6 h-1.5 bg-orange-400 rounded-full ml-4"
+                  />
+                </div>
+
+                <motion.div
+                  animate={{ 
+                    y: [0, -10, 0],
+                    rotate: [0, 5, 0, -2, 0]
+                  }}
+                  transition={{ 
+                    y: { duration: 1.5, repeat: Infinity, ease: "easeInOut" },
+                    rotate: { duration: 1.5, repeat: Infinity, ease: "easeInOut" }
+                  }}
+                  className="text-orange-500 drop-shadow-2xl"
+                >
+                  <Snail size={160} strokeWidth={1.5} />
+                </motion.div>
+              </motion.div>
+
             </div>
-            
-            {/* Floating badge */}
-            <motion.div 
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
-              className="absolute -bottom-6 -left-6 bg-white p-4 rounded-2xl shadow-xl border border-orange-100 flex items-center gap-4"
-            >
-              <div className="bg-green-100 p-3 rounded-full">
-                <Activity className="h-6 w-6 text-green-600" />
-              </div>
-              <div>
-                <p className="text-sm text-slate-500 font-medium">Daily Goal</p>
-                <p className="text-xl font-bold text-slate-900">10.5 km</p>
-              </div>
-            </motion.div>
           </motion.div>
         </div>
       </div>

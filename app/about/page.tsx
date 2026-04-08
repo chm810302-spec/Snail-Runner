@@ -10,7 +10,9 @@ import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import { useRouter } from "next/navigation";
+import "react-quill-new/dist/quill.snow.css";
 
 export default function AboutPage() {
   const [content, setContent] = useState("");
@@ -43,30 +45,22 @@ export default function AboutPage() {
         } else {
           // Fallback to default content if no document exists
           setContent(`
-Hello! I'm a runner in my mid-40s. The reason I started running is quite simple. I was looking for a workout that wasn't bound by time, location, or equipment. Running seemed like the absolute best choice, so I laced up my shoes and began my journey in 2021.
+<h2>🐌 The Snail Runner’s Manifesto</h2>
 
-## My Running Philosophy
+<h3>Who is the Snail Runner?</h3>
+<p>I am a healthcare professional by day—managing a GP practice and nursing—and a dedicated runner by dawn. But more than that, I am a believer in the power of consistency. My journey isn’t about being the fastest on the bitumen; it’s about the "Snail Philosophy": Slow is smooth, smooth is fast, and forward is the only direction.</p>
 
-To this day, I have never participated in a single race—and honestly, I don't have much desire to.
+<h3>My Definition of Running</h3>
+<p>To me, running is a mirror of life. It’s built on a delicate rhythm. I’ve learned that finding that perfect flow takes immense effort and focus, yet it can be broken in a heartbeat. That is why I show up every morning. Whether it’s a 20km long-grind through a "pea-souper" (thick fog), an adrenaline-fueled dash through heavy rain, or a peaceful 5km recovery with my wife—I am there to protect my rhythm.</p>
 
-When I first started, I was obsessed with getting faster. I pushed myself frantically, but I soon realized that chasing speed was actually stealing the pure joy of running away from me. Since that realization, I stopped constantly checking my watch to measure my pace.
+<h3>The 1% Rule</h3>
+<p>I don’t chase miracles; I chase 1% growth.</p>
+<p>I believe that being 1% better than I was yesterday is the ultimate win. Some days, that 1% is a new distance record. Other days, it’s simply the discipline to lace up when my legs are sore and the "hard yakka" feels heavy.</p>
 
-For me, the philosophy of running comes down to two things: **joy and routine**. My ultimate goal is simple: **to run long, run healthy, and stay pain-free**. I just want to keep enjoying this wonderful, healthy routine for a very long time.
+<h3>Why the Snail?</h3>
+<p>The snail is my spirit animal on the road. It carries its home, moves with intention, and leaves a trail of progress behind. It doesn't matter if the pace is slow, as long as you don't stop.</p>
 
-## Why I Started This Blog
-
-I created this space to share my journey and connect with runners all over the world. Here, you'll find:
-
-- **Honest Gear Reviews:** I test shoes and gear so you know what actually works for everyday runners.
-- **Strength & Mobility:** The secret to running pain-free is what you do when you're *not* running. I share the routines that keep injuries away.
-- **Personal Reflections:** Thoughts on motivation, the mental side of running, and finding joy in the miles.
-
-<div class="bg-orange-50 p-8 rounded-2xl border border-orange-100 mt-12">
-  <h3 class="text-xl font-bold text-slate-900 mb-4">Let's Connect</h3>
-  <p class="text-lg text-slate-600">
-    Running is better together. I'd love to hear about your running journey, your favorite routes, or the shoes you're currently loving. Feel free to reach out on social media or subscribe to the newsletter to stay in touch!
-  </p>
-</div>
+<p>On this blog, I share my miles, my mistakes, and my momentum. Because in the end, it’s not just about the run—it’s about how we choose to start our day and guard our rhythm.</p>
           `);
         }
       } catch (error: any) {
@@ -144,8 +138,10 @@ I created this space to share my journey and connect with runners all over the w
             />
           </div>
 
-          <div className="prose prose-lg prose-slate max-w-none">
-            <Markdown>{content}</Markdown>
+          <div className="prose prose-lg prose-slate max-w-none ql-snow">
+            <div className="ql-editor" style={{ padding: 0 }}>
+              <Markdown rehypePlugins={[rehypeRaw]}>{content}</Markdown>
+            </div>
           </div>
         </div>
       </main>

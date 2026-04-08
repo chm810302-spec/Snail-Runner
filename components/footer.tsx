@@ -1,5 +1,8 @@
-import { Activity, Instagram, Twitter, Youtube } from "lucide-react";
+"use client";
+
+import { Activity, Instagram, Twitter, Youtube, Snail } from "lucide-react";
 import Link from "next/link";
+import { motion } from "motion/react";
 
 export function Footer() {
   return (
@@ -7,12 +10,16 @@ export function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           <div className="col-span-1 md:col-span-2">
-            <Link href="/" className="flex items-center gap-2 mb-6 inline-flex">
-              <div className="bg-orange-500 text-white p-2 rounded-xl">
-                <Activity className="h-6 w-6" />
-              </div>
-              <span className="font-bold text-2xl tracking-tight text-white">
-                Run<span className="text-orange-500">Long</span>
+            <Link href="/" className="flex items-center gap-2 group overflow-hidden py-2 pr-2 mb-6 inline-flex">
+              <motion.div 
+                animate={{ x: [0, 12, 0], scaleX: [1, 1.1, 1], scaleY: [1, 0.9, 1] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="text-orange-500"
+              >
+                <Snail className="h-8 w-8" />
+              </motion.div>
+              <span className="font-bold text-2xl tracking-tight text-white font-serif">
+                Snail<span className="text-orange-500 italic">Runner</span>
               </span>
             </Link>
             <p className="text-slate-400 max-w-md mb-6">
@@ -43,7 +50,7 @@ export function Footer() {
         
         <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-slate-500">
-            © {new Date().getFullYear()} Run Long & Healthy. All rights reserved.
+            © {new Date().getFullYear()} Snail Runner. All rights reserved.
           </p>
           <div className="flex gap-6 text-sm text-slate-500">
             <Link href="#" className="hover:text-white transition-colors">Privacy Policy</Link>

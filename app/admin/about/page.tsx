@@ -9,6 +9,24 @@ import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 
 import { handleFirestoreError, OperationType } from "@/lib/firestore-error";
+import dynamic from "next/dynamic";
+import "react-quill-new/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill-new"), { ssr: false });
+
+const quillModules = {
+  toolbar: [
+    [{ header: [1, 2, 3, 4, 5, 6, false] }],
+    [{ font: [] }],
+    [{ size: [] }],
+    ["bold", "italic", "underline", "strike", "blockquote"],
+    [{ color: [] }, { background: [] }],
+    [{ list: "ordered" }, { list: "bullet" }, { indent: "-1" }, { indent: "+1" }],
+    [{ align: [] }],
+    ["link", "image", "video"],
+    ["clean"],
+  ],
+};
 
 const compressImage = (file: File, maxWidth = 1200, maxHeight = 1200): Promise<string> => {
   return new Promise((resolve, reject) => {
@@ -201,16 +219,18 @@ export default function EditAboutPage() {
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-2">Content</label>
-                <textarea
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  rows={20}
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-orange-500 focus:border-transparent outline-none transition-all resize-y"
-                  placeholder="Write your about content here... You can use Markdown or HTML."
-                  required
-                />
-                <div className="mt-2 p-4 bg-slate-50 rounded-xl border border-slate-200">
-                  <p className="text-sm font-medium text-slate-700 mb-2">Need to add an image inside the content?</p>
+                <div className="bg-white rounded-xl overflow-hidden border border-slate-200 focus-within:ring-2 focus-within:ring-orange-500 focus-within:border-transparent transition-all">
+                  <ReactQuill
+                    theme="snow"
+                    value={content}
+                    onChange={setContent}
+                    modules={quillModules}
+                    className="h-96"
+                    placeholder="Write your about content here... You can use the toolbar to format text, add colors, and insert images."
+                  />
+                </div>
+                <div className="mt-16 p-4 bg-slate-50 rounded-xl border border-slate-200">
+                  <p className="text-sm font-medium text-slate-700 mb-2">Need to add a compressed image inside the content?</p>
                   <div className="flex items-center gap-4">
                     <input
                       type="file"
@@ -220,7 +240,7 @@ export default function EditAboutPage() {
                           const file = e.target.files[0];
                           try {
                             const compressedBase64 = await compressImage(file, 800, 800);
-                            setContent((prev) => prev + `\n\n![Image](${compressedBase64})\n\n`);
+                            setContent((prev) => prev + `<p><img src="${compressedBase64}" alt="Image" /></p>`);
                             alert("Image added to content!");
                           } catch (compressionErr) {
                             console.error("Compression failed", compressionErr);

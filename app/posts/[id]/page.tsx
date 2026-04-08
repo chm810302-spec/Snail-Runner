@@ -12,7 +12,9 @@ import { db, auth } from "@/firebase";
 import { onAuthStateChanged } from "firebase/auth";
 import { use } from "react";
 import Markdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 import { useRouter } from "next/navigation";
+import "react-quill-new/dist/quill.snow.css";
 import { handleFirestoreError, OperationType } from "@/lib/firestore-error";
 import { Pencil, Trash2 } from "lucide-react";
 
@@ -177,8 +179,10 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
                 />
               </div>
 
-              <div className="prose prose-lg prose-slate max-w-none mb-24">
-                <Markdown>{post.content}</Markdown>
+              <div className="prose prose-lg prose-slate max-w-none mb-24 ql-snow">
+                <div className="ql-editor" style={{ padding: 0 }}>
+                  <Markdown rehypePlugins={[rehypeRaw]}>{post.content}</Markdown>
+                </div>
               </div>
 
               <hr className="border-slate-200 mb-16" />

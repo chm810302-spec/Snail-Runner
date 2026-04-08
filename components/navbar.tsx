@@ -1,16 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { Activity, Menu, X, User as UserIcon, LogOut, Snail } from "lucide-react";
+import { Activity, Menu, X, User as UserIcon, LogOut, Snail, Search } from "lucide-react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import { useFirebase } from "./firebase-provider";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const { user, profile, loading, signInWithGoogle, logout } = useFirebase();
+  const router = useRouter();
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      router.push(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+      setIsOpen(false);
+    }
+  };
 
   const navLinks = [
     { name: "About", href: "/about" },
@@ -39,7 +50,19 @@ export function Navbar() {
           </div>
 
           {/* Desktop Nav */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+            <form onSubmit={handleSearch} className="relative hidden lg:block">
+              <input
+                type="text"
+                placeholder="Search posts..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-48 xl:w-64 pl-10 pr-4 py-2 rounded-full bg-slate-100 border-transparent focus:bg-white focus:border-orange-300 focus:ring-2 focus:ring-orange-200 text-sm transition-all outline-none"
+                suppressHydrationWarning
+              />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            </form>
+
             {navLinks.map((link) => (
               <Link
                 key={link.name}
@@ -156,6 +179,18 @@ export function Navbar() {
             className="md:hidden bg-white border-b border-orange-100 overflow-hidden"
           >
             <div className="px-4 pt-2 pb-6 space-y-1">
+              <form onSubmit={handleSearch} className="relative mb-4 mt-2">
+                <input
+                  type="text"
+                  placeholder="Search posts..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-10 pr-4 py-3 rounded-xl bg-slate-100 border-transparent focus:bg-white focus:border-orange-300 focus:ring-2 focus:ring-orange-200 text-sm transition-all outline-none"
+                  suppressHydrationWarning
+                />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
+              </form>
+
               {user && (
                 <div className="px-3 py-3 mb-2 border-b border-slate-100 flex items-center gap-3">
                   {profile?.photoURL ? (
