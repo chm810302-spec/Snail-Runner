@@ -48,7 +48,13 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
           const userSnap = await getDoc(userRef);
           
           if (userSnap.exists()) {
-            setProfile(userSnap.data() as UserProfile);
+            const data = userSnap.data() as UserProfile;
+            // Auto-upgrade to admin if email matches
+            if (currentUser.email === "chm810302@gmail.com" && data.role !== "admin") {
+              await setDoc(userRef, { role: "admin" }, { merge: true });
+              data.role = "admin";
+            }
+            setProfile(data);
           } else {
             // Create new profile
             const newProfile = {
@@ -56,7 +62,7 @@ export function FirebaseProvider({ children }: { children: React.ReactNode }) {
               email: currentUser.email || "",
               displayName: currentUser.displayName || "",
               photoURL: currentUser.photoURL || "",
-              role: "user",
+              role: currentUser.email === "chm810302@gmail.com" ? "admin" : "user",
               createdAt: serverTimestamp(),
             };
             await setDoc(userRef, newProfile);
