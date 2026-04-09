@@ -8,6 +8,7 @@ import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
+import { useFirebase } from "@/components/firebase-provider";
 
 import { handleFirestoreError, OperationType } from "@/lib/firestore-error";
 import dynamic from "next/dynamic";
@@ -73,6 +74,7 @@ export default function AdminPage() {
   const [authChecking, setAuthChecking] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
   const router = useRouter();
+  const { signInWithGoogle } = useFirebase();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -81,15 +83,15 @@ export default function AdminPage() {
         if (user.email === "chm810302@gmail.com") {
           setIsAdmin(true);
         } else {
-          router.push("/");
+          setIsAdmin(false);
         }
       } else {
-        router.push("/");
+        setIsAdmin(false);
       }
       setAuthChecking(false);
     });
     return () => unsubscribe();
-  }, [router]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -179,7 +181,26 @@ export default function AdminPage() {
     );
   }
 
-  if (!isAdmin) return null;
+  if (!isAdmin) {
+    return (
+      <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+        <Navbar />
+        <main className="py-20 lg:py-32 flex flex-col items-center justify-center">
+          <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 text-center max-w-md w-full mx-4">
+            <h1 className="text-2xl font-bold text-slate-900 mb-4">Admin Access Only</h1>
+            <p className="text-slate-600 mb-8">Please sign in with your admin account to continue.</p>
+            <button
+              onClick={signInWithGoogle}
+              className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
+            >
+              Sign In with Google
+            </button>
+          </div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
