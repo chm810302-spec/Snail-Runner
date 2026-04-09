@@ -73,8 +73,18 @@ export default function AdminPage() {
   const [isAdmin, setIsAdmin] = useState(false);
   const [authChecking, setAuthChecking] = useState(true);
   const [errorMsg, setErrorMsg] = useState("");
+  const [loginError, setLoginError] = useState("");
   const router = useRouter();
   const { signInWithGoogle } = useFirebase();
+
+  const handleSignIn = async () => {
+    setLoginError("");
+    try {
+      await signInWithGoogle();
+    } catch (err: any) {
+      setLoginError("팝업이 차단되었거나 오류가 발생했습니다. 우측 상단의 '새 탭에서 열기(↗️)' 아이콘을 클릭하여 새 창에서 접속한 뒤 다시 시도해주세요.");
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -188,9 +198,20 @@ export default function AdminPage() {
         <main className="py-20 lg:py-32 flex flex-col items-center justify-center">
           <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12 text-center max-w-md w-full mx-4">
             <h1 className="text-2xl font-bold text-slate-900 mb-4">Admin Access Only</h1>
-            <p className="text-slate-600 mb-8">Please sign in with your admin account to continue.</p>
+            <p className="text-slate-600 mb-4">Please sign in with your admin account to continue.</p>
+            
+            <div className="mb-8 p-4 bg-orange-50 border border-orange-200 rounded-xl text-sm text-orange-800 text-left">
+              <strong>💡 안내:</strong> 로그인 창이 열리지 않거나 아무 반응이 없다면, 화면 우측 상단의 <strong>새 탭에서 열기(↗️)</strong> 아이콘을 클릭하여 새 창에서 접속해 주세요. (미리보기 화면에서는 팝업이 차단될 수 있습니다)
+            </div>
+
+            {loginError && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 text-left">
+                {loginError}
+              </div>
+            )}
+
             <button
-              onClick={signInWithGoogle}
+              onClick={handleSignIn}
               className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
             >
               Sign In with Google
