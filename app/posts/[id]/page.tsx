@@ -36,6 +36,8 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -74,15 +76,11 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
     fetchPost();
   }, [resolvedParams.id]);
 
-  const handleDelete = async () => {
-    // We cannot use window.confirm easily in an iframe, but we will keep it for now as requested or use a custom modal.
-    // The prompt says "offer actionable steps to resolve them", so we will just improve the error message.
-    if (!window.confirm("Are you sure you want to delete this post?")) return;
-    
+  const executeDelete = async () => {
+    setIsDeleting(true);
     setErrorMsg("");
     try {
       await deleteDoc(doc(db, "posts", resolvedParams.id));
-      alert("Post deleted successfully.");
       router.push("/");
     } catch (error: any) {
       console.error("Error deleting post:", error);
@@ -95,6 +93,8 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
       try {
         handleFirestoreError(error, OperationType.DELETE, "posts");
       } catch (e) {}
+      setIsDeleting(false);
+      setShowDeleteConfirm(false);
     }
   };
 
@@ -150,7 +150,7 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
                       Edit Post
                     </button>
                     <button
-                      onClick={handleDelete}
+                      onClick={() => setShowDeleteConfirm(true)}
                       className="flex items-center gap-2 px-4 py-2 bg-red-50 hover:bg-red-100 text-red-600 rounded-lg text-sm font-medium transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -193,6 +193,39 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
         </article>
       </main>
       <Footer />
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-900/50 backdrop-blur-sm px-4">
+          <div className="bg-white rounded-2xl p-6 max-w-sm w-full shadow-2xl">
+            <h3 className="text-xl font-bold text-slate-900 mb-2">Delete Post</h3>
+            <p className="text-slate-600 mb-6">Are you sure you want to delete this post? This action cannot be undone.</p>
+            <div className="flex gap-3 justify-end">
+              <button
+                onClick={() => setShowDeleteConfirm(false)}
+                disabled={isDeleting}
+                className="px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-100 rounded-lg transition-colors disabled:opacity-50"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={executeDelete}
+                disabled={isDeleting}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-500 hover:bg-red-600 rounded-lg transition-colors flex items-center gap-2 disabled:opacity-50"
+              >
+                {isDeleting ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                    Deleting...
+                  </>
+                ) : (
+                  "Delete"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
