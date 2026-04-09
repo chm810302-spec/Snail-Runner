@@ -82,7 +82,9 @@ export default function AdminPage() {
     try {
       await signInWithGoogle();
     } catch (err: any) {
-      setLoginError("팝업이 차단되었거나 오류가 발생했습니다. 우측 상단의 '새 탭에서 열기(↗️)' 아이콘을 클릭하여 새 창에서 접속한 뒤 다시 시도해주세요.");
+      console.error("Login error details:", err);
+      const errorMessage = err?.message || "알 수 없는 오류가 발생했습니다.";
+      setLoginError(`로그인 오류: ${errorMessage}\n\n(참고: 'auth/unauthorized-domain' 오류인 경우 Firebase 콘솔에서 현재 도메인을 승인된 도메인으로 추가해야 합니다. 팝업 차단인 경우 새 탭에서 열어주세요.)`);
     }
   };
 
@@ -205,7 +207,7 @@ export default function AdminPage() {
             </div>
 
             {loginError && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 text-left">
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl text-sm text-red-700 text-left whitespace-pre-wrap">
                 {loginError}
               </div>
             )}

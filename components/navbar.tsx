@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const { user, profile, loading, logout } = useFirebase();
+  const { user, profile, loading, signInWithGoogle, logout } = useFirebase();
   const router = useRouter();
 
   const navLinks = [
@@ -116,7 +116,21 @@ export function Navbar() {
                     )}
                   </AnimatePresence>
                 </div>
-              ) : null
+              ) : (
+                <button 
+                  onClick={async () => {
+                    try {
+                      await signInWithGoogle();
+                    } catch (err) {
+                      alert("로그인 팝업이 차단되었습니다. 우측 상단의 '새 탭에서 열기(↗️)'를 클릭하여 새 창에서 시도해주세요.");
+                    }
+                  }}
+                  className="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-full font-medium transition-all transform hover:scale-105 flex items-center gap-2"
+                >
+                  <UserIcon className="h-4 w-4" />
+                  <span>Sign In</span>
+                </button>
+              )
             )}
           </div>
 
@@ -176,6 +190,21 @@ export function Navbar() {
                 </Link>
               ))}
               
+              {!user && !loading && (
+                <button
+                  onClick={async () => {
+                    try {
+                      await signInWithGoogle();
+                    } catch (err) {
+                      alert("로그인 팝업이 차단되었습니다. 우측 상단의 '새 탭에서 열기(↗️)'를 클릭하여 새 창에서 시도해주세요.");
+                    }
+                  }}
+                  className="block w-full text-left px-3 py-3 text-base font-medium text-orange-600 hover:bg-orange-50 rounded-xl transition-colors"
+                >
+                  Sign In
+                </button>
+              )}
+
               {user && (
                 <>
                   <Link
