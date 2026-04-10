@@ -1,6 +1,6 @@
 "use client";
 
-import { Activity, Instagram, Twitter, Youtube, Snail } from "lucide-react";
+import { Activity, Instagram, Youtube, Snail, Facebook } from "lucide-react";
 import Link from "next/link";
 import { motion } from "motion/react";
 
@@ -26,13 +26,13 @@ export function Footer() {
               Our mission is simple: Run Long, Run Healthy, Pain-Free. Join our global community of runners dedicated to lifelong fitness and joy.
             </p>
             <div className="flex gap-4">
-              <a href="#" className="bg-slate-800 p-2 rounded-full hover:bg-orange-500 hover:text-white transition-colors">
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="bg-slate-800 p-2 rounded-full hover:bg-orange-500 hover:text-white transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
-              <a href="#" className="bg-slate-800 p-2 rounded-full hover:bg-orange-500 hover:text-white transition-colors">
-                <Twitter className="h-5 w-5" />
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="bg-slate-800 p-2 rounded-full hover:bg-orange-500 hover:text-white transition-colors">
+                <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="bg-slate-800 p-2 rounded-full hover:bg-orange-500 hover:text-white transition-colors">
+              <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="bg-slate-800 p-2 rounded-full hover:bg-orange-500 hover:text-white transition-colors">
                 <Youtube className="h-5 w-5" />
               </a>
             </div>

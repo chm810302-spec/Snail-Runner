@@ -77,7 +77,7 @@ service cloud.firestore {
     }
 
     function isValidPost(data) {
-      return hasOnlyAllowedFields(['id', 'category', 'title', 'excerpt', 'content', 'image', 'readTime', 'color', 'date', 'createdAt']) &&
+      return hasOnlyAllowedFields(['id', 'category', 'title', 'excerpt', 'content', 'image', 'readTime', 'color', 'date', 'likes', 'createdAt']) &&
              data.id is string && data.id.size() > 0 &&
              data.category is string && data.category.size() > 0 && data.category.size() <= 100 &&
              data.title is string && data.title.size() > 0 && data.title.size() <= 200 &&
@@ -87,7 +87,13 @@ service cloud.firestore {
              isValidOptionalString('readTime', 0, 50) &&
              isValidOptionalString('color', 0, 50) &&
              isValidOptionalString('date', 0, 50) &&
+             (!('likes' in data) || data.likes is number) &&
              data.createdAt is timestamp;
+    }
+
+    function isOnlyLiking() {
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes']) &&
+             (request.resource.data.likes == resource.data.likes + 1 || request.resource.data.likes == resource.data.likes - 1);
     }
 
     function isValidAbout(data) {
@@ -124,7 +130,8 @@ service cloud.firestore {
     match /posts/{postId} {
       allow read: if true;
       allow create: if isAdmin() && isValidPost(request.resource.data) && request.resource.data.id == postId;
-      allow update: if isAdmin() && isValidPost(request.resource.data) && areImmutableFieldsUnchanged(['id', 'createdAt']);
+      allow update: if (isAdmin() && isValidPost(request.resource.data) && areImmutableFieldsUnchanged(['id', 'createdAt'])) ||
+                       (isValidPost(request.resource.data) && isOnlyLiking());
       allow delete: if isAdmin();
     }
 

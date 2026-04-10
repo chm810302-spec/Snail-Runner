@@ -27,7 +27,7 @@ export function FeaturedPosts() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const q = query(collection(db, "posts"), orderBy("createdAt", "desc"), limit(6));
+        const q = query(collection(db, "posts"), orderBy("id", "desc"), limit(6));
         const querySnapshot = await getDocs(q);
         const fetchedPosts: Post[] = [];
         querySnapshot.forEach((doc) => {
