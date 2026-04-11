@@ -125,7 +125,7 @@ export function FeaturedPosts() {
                       {post.title}
                     </h3>
                     
-                    <p className="text-slate-600 mb-6 line-clamp-3 flex-1">
+                    <p className="text-slate-600 mb-6 line-clamp-3 flex-1 text-justify break-normal hyphens-auto">
                       {post.excerpt}
                     </p>
                     

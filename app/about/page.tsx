@@ -138,7 +138,7 @@ export default function AboutPage() {
             />
           </div>
 
-          <div className="prose prose-lg md:prose-xl prose-slate max-w-none break-normal hyphens-auto prose-p:leading-[1.8] ql-snow">
+          <div className="prose prose-lg md:prose-xl prose-slate max-w-none break-normal hyphens-auto prose-p:leading-[1.8] prose-p:text-justify ql-snow">
             <div className="ql-editor" style={{ padding: 0, textAlign: 'justify' }}>
               <Markdown rehypePlugins={[rehypeRaw]}>{content}</Markdown>
             </div>
