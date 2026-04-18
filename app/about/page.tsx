@@ -130,7 +130,7 @@ export default function AboutPage() {
 
           <div className="relative w-full aspect-[4/3] md:aspect-video rounded-3xl overflow-hidden mb-16 shadow-xl bg-slate-100">
             <Image
-              src={imageUrl}
+              src={imageUrl || "/profile.jpg"}
               alt="Running on a trail"
               fill
               className="object-contain"
@@ -140,7 +140,14 @@ export default function AboutPage() {
 
           <div className="prose prose-lg md:prose-xl prose-slate max-w-none break-normal hyphens-auto prose-p:leading-[1.8] prose-p:text-justify ql-snow">
             <div className="ql-editor" style={{ padding: 0, textAlign: 'justify' }}>
-              <Markdown rehypePlugins={[rehypeRaw]}>{content}</Markdown>
+              <Markdown 
+                rehypePlugins={[rehypeRaw]}
+                components={{
+                  img: ({node, ...props}) => props.src ? <img {...props} /> : null
+                }}
+              >
+                {content}
+              </Markdown>
             </div>
           </div>
         </div>

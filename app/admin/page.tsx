@@ -6,6 +6,7 @@ import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { onAuthStateChanged } from "firebase/auth";
 import { useFirebase } from "@/components/firebase-provider";
@@ -230,6 +231,14 @@ export default function AdminPage() {
       <Navbar />
       <main className="py-20 lg:py-32">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-4 justify-end mb-8">
+            <Link href="/admin/about" className="bg-white text-orange-600 px-6 py-2.5 rounded-full font-medium shadow-sm hover:shadow-md transition-all">
+              Edit About Page
+            </Link>
+            <Link href="/admin/newsletters" className="bg-white text-blue-600 px-6 py-2.5 rounded-full font-medium shadow-sm hover:shadow-md transition-all">
+              Manage Newsletters
+            </Link>
+          </div>
           <div className="bg-white rounded-3xl shadow-xl p-8 md:p-12">
             <h1 className="text-3xl font-bold text-slate-900 mb-8">Write a New Post</h1>
             

@@ -48,12 +48,29 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["id", "category", "title", "excerpt", "content", "image", "createdAt"]
+    },
+    "Newsletter": {
+      "title": "Newsletter",
+      "description": "A weekly newsletter PDF",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "date": { "type": "string" },
+        "pdfUrl": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "title", "date", "pdfUrl", "createdAt"]
     }
   },
   "firestore": {
     "/users/{userId}": {
       "schema": { "$ref": "#/entities/UserProfile" },
       "description": "User profiles"
+    },
+    "/newsletters/{newsletterId}": {
+      "schema": { "$ref": "#/entities/Newsletter" },
+      "description": "Newsletters"
     },
     "/posts/{postId}": {
       "schema": { "$ref": "#/entities/Post" },

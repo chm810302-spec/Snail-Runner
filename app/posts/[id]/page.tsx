@@ -184,7 +184,7 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
     return (
       <div className="min-h-screen bg-white flex flex-col items-center justify-center">
         <h1 className="text-2xl font-bold text-slate-900 mb-4">Post not found</h1>
-        <a href="/" className="text-orange-500 hover:underline">Return home</a>
+        <Link href="/" className="text-orange-500 hover:underline">Return home</Link>
       </div>
     );
   }
@@ -258,7 +258,14 @@ export default function PostPage({ params }: { params: Promise<{ id: string }> }
               <div className="p-6 sm:p-10 pt-10">
                 <div className="prose prose-lg md:prose-xl prose-slate max-w-none mb-12 break-normal hyphens-auto prose-p:leading-[1.8] prose-p:text-justify prose-img:rounded-2xl prose-img:w-full prose-img:object-cover prose-img:my-8 ql-snow">
                   <div className="ql-editor" style={{ padding: 0, textAlign: 'justify' }}>
-                    <Markdown rehypePlugins={[rehypeRaw]}>{post.content}</Markdown>
+                    <Markdown 
+                      rehypePlugins={[rehypeRaw]}
+                      components={{
+                        img: ({node, ...props}) => props.src ? <img {...props} /> : null
+                      }}
+                    >
+                      {post.content}
+                    </Markdown>
                   </div>
                 </div>
 

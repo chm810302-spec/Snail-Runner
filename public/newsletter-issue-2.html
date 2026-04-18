@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Snail Runner - Your Slow Jog Is Building a Better Brain</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #f0f4e8;
+    color: #3a3a3a;
+    line-height: 1.8;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, #4a7c59, #6db07c);
+    border-radius: 24px;
+    padding: 48px 32px 36px;
+    text-align: center;
+    color: white;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 50%;
+  }
+  .header .snail-logo {
+    display: inline-block;
+    margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 8px;
+    line-height: 1.3;
+  }
+  .header .tagline {
+    font-size: 14px;
+    opacity: 0.85;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .header .date {
+    margin-top: 16px;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+
+  /* INTRO */
+  .intro {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+    font-size: 16px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .intro p { margin-bottom: 12px; }
+  .intro p:last-child { margin-bottom: 0; }
+
+  /* CARD */
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 0;
+    margin-bottom: 24px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .card-icon-bar {
+    padding: 28px 32px 0;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .card-icon-bar .num {
+    background: #4a7c59;
+    color: white;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 900;
+    font-size: 16px;
+    flex-shrink: 0;
+  }
+  .card-icon-bar h2 {
+    font-size: 20px;
+    font-weight: 900;
+    color: #2d5a3d;
+  }
+  .card-body {
+    padding: 20px 32px 28px;
+    font-size: 15px;
+  }
+  .card-body p { margin-bottom: 14px; }
+  .card-body p:last-child { margin-bottom: 0; }
+
+  /* ILLUSTRATION SECTION */
+  .illustration {
+    display: flex;
+    justify-content: center;
+    padding: 24px 32px 8px;
+  }
+
+  /* HIGHLIGHT BOX */
+  .highlight {
+    background: #eef6e9;
+    border-left: 4px solid #6db07c;
+    border-radius: 0 12px 12px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: #2d5a3d;
+  }
+
+  /* FUN FACT BUBBLE */
+  .fun-fact {
+    background: #fff8e1;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin: 16px 0;
+    border: 2px dashed #f0c040;
+    font-size: 14px;
+  }
+  .fun-fact .label {
+    font-weight: 900;
+    color: #c8960c;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  /* TAKEAWAY SECTION */
+  .takeaway {
+    background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+  }
+  .takeaway h2 {
+    font-size: 20px;
+    font-weight: 900;
+    color: #2d5a3d;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  .takeaway-item {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 20px;
+    align-items: flex-start;
+  }
+  .takeaway-item:last-child { margin-bottom: 0; }
+  .takeaway-icon {
+    flex-shrink: 0;
+    width: 48px; height: 48px;
+    background: white;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .takeaway-text h3 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #2d5a3d;
+    margin-bottom: 4px;
+  }
+  .takeaway-text p {
+    font-size: 14px;
+    color: #555;
+  }
+
+  /* TRY THIS */
+  .try-this {
+    background: white;
+    border-radius: 20px;
+    padding: 32px;
+    margin-bottom: 24px;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+    border: 3px solid #6db07c;
+  }
+  .try-this h2 {
+    font-size: 18px;
+    font-weight: 900;
+    color: #4a7c59;
+    margin-bottom: 16px;
+  }
+  .try-this p {
+    font-size: 15px;
+    max-width: 500px;
+    margin: 0 auto;
+  }
+  .try-this .steps {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 24px 0 8px;
+    flex-wrap: wrap;
+  }
+  .try-this .step {
+    background: #eef6e9;
+    border-radius: 14px;
+    padding: 16px;
+    width: 140px;
+    text-align: center;
+  }
+  .try-this .step .step-num {
+    font-weight: 900;
+    font-size: 24px;
+    color: #4a7c59;
+  }
+  .try-this .step p {
+    font-size: 13px;
+    margin-top: 4px;
+  }
+
+  /* CLOSING */
+  .closing {
+    background: linear-gradient(135deg, #4a7c59, #6db07c);
+    border-radius: 20px;
+    padding: 32px;
+    color: white;
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 16px;
+    line-height: 1.9;
+  }
+  .closing .quote {
+    font-size: 20px;
+    font-weight: 900;
+    margin-top: 12px;
+    letter-spacing: 1px;
+  }
+
+  /* SOURCES */
+  .sources {
+    background: white;
+    border-radius: 20px;
+    padding: 24px 32px;
+    margin-bottom: 40px;
+    font-size: 12px;
+    color: #888;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+  }
+  .sources h3 {
+    font-size: 13px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+  }
+  .sources ol {
+    padding-left: 18px;
+  }
+  .sources li {
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .sources a {
+    color: #6db07c;
+    text-decoration: none;
+  }
+  .sources a:hover { text-decoration: underline; }
+
+  .info-svg text {
+    font-family: 'Inter', sans-serif;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="snail-logo">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+        <ellipse cx="32" cy="48" rx="24" ry="10" fill="rgba(255,255,255,0.15)"/>
+        <circle cx="30" cy="28" r="16" fill="#f9c74f" stroke="#e8a838" stroke-width="2"/>
+        <path d="M30 12 Q38 20 34 28 Q30 36 22 28 Q18 22 26 18" fill="none" stroke="#e8a838" stroke-width="2" stroke-linecap="round"/>
+        <ellipse cx="36" cy="44" rx="20" ry="6" fill="#a8d5a2"/>
+        <ellipse cx="36" cy="44" rx="18" ry="5" fill="#8cc084"/>
+        <line x1="48" y1="44" x2="52" y2="34" stroke="#8cc084" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="44" y1="43" x2="47" y2="34" stroke="#8cc084" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="52" cy="33" r="2.5" fill="#3a3a3a"/>
+        <circle cx="47" cy="33" r="2.5" fill="#3a3a3a"/>
+        <ellipse cx="18" cy="47" rx="5" ry="2.5" fill="white" opacity="0.8"/>
+        <ellipse cx="54" cy="47" rx="5" ry="2.5" fill="white" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="tagline">Running slow, living fully</div>
+    <h1>Your Slow Jog Is Building<br>a Better Brain</h1>
+    <div class="date">Saturday, April 18, 2026 | Weekly Newsletter</div>
+  </div>
+
+  <!-- INTRO -->
+  <div class="intro">
+    <p>You know that feeling after a run? Your mind is clearer, tangled thoughts unravel, and ideas just pop up out of nowhere.</p>
+    <p>That's not just a "runner's high." <strong>Your brain is physically changing.</strong> And you don't need to run fast for it to happen. Here's the science, kept simple and fun.</p>
+  </div>
+
+  <!-- CARD 1: New Brain Cells -->
+  <div class="card">
+    <div class="illustration">
+      <svg width="400" height="160" viewBox="0 0 400 160" class="info-svg">
+        <path d="M120 110 Q80 110 70 80 Q60 50 90 35 Q110 20 140 25 Q160 15 180 25 Q200 15 220 25 Q250 20 270 35 Q300 50 290 80 Q280 110 240 110" fill="#e8f5e9" stroke="#6db07c" stroke-width="2.5"/>
+        <circle cx="140" cy="60" r="4" fill="#f9c74f"><animate attributeName="r" values="3;6;3" dur="2s" repeatCount="indefinite"/></circle>
+        <circle cx="180" cy="50" r="4" fill="#f9c74f"><animate attributeName="r" values="4;7;4" dur="2.5s" repeatCount="indefinite"/></circle>
+        <circle cx="210" cy="65" r="4" fill="#f9c74f"><animate attributeName="r" values="3;5;3" dur="1.8s" repeatCount="indefinite"/></circle>
+        <circle cx="170" cy="80" r="4" fill="#f9c74f"><animate attributeName="r" values="2;6;2" dur="2.2s" repeatCount="indefinite"/></circle>
+        <circle cx="240" cy="55" r="3" fill="#f9c74f"><animate attributeName="r" values="2;5;2" dur="2.8s" repeatCount="indefinite"/></circle>
+        <text x="180" y="105" text-anchor="middle" font-size="12" fill="#4a7c59" font-weight="700">NEW NEURONS!</text>
+        <text x="340" y="50" text-anchor="middle" font-size="28" fill="#4a7c59" font-weight="900">+2%</text>
+        <text x="340" y="72" text-anchor="middle" font-size="11" fill="#888">Hippocampus growth</text>
+        <text x="340" y="88" text-anchor="middle" font-size="10" fill="#aaa">(after 1 year of walking)</text>
+      </svg>
+    </div>
+    <div class="card-icon-bar">
+      <div class="num">1</div>
+      <h2>Running Grows New Brain Cells</h2>
+    </div>
+    <div class="card-body">
+      <p>For decades, scientists believed the adult brain couldn't make new neurons. Turns out, that was wrong.</p>
+      <p>Professor Erickson at the University of Pittsburgh split 120 older adults into two groups for a year: one walked regularly, the other just stretched. The result?</p>
+      <div class="highlight">The walkers' hippocampus (the brain's memory and learning center) grew by about 2% -- effectively reversing 1-2 years of age-related brain shrinkage!</div>
+      <p>They weren't running fast. <strong>They were just walking consistently.</strong></p>
+    </div>
+  </div>
+
+  <!-- CARD 2: BDNF -->
+  <div class="card">
+    <div class="illustration">
+      <svg width="400" height="150" viewBox="0 0 400 150" class="info-svg">
+        <rect x="60" y="40" rx="8" width="50" height="40" fill="#6db07c"/>
+        <rect x="100" y="35" rx="4" width="30" height="12" fill="#6db07c"/>
+        <line x1="130" y1="41" x2="145" y2="35" stroke="#6db07c" stroke-width="3" stroke-linecap="round"/>
+        <ellipse cx="148" cy="50" rx="3" ry="5" fill="#90caf9"><animate attributeName="cy" values="45;90;45" dur="1.5s" repeatCount="indefinite"/></ellipse>
+        <ellipse cx="158" cy="55" rx="3" ry="5" fill="#90caf9"><animate attributeName="cy" values="50;100;50" dur="1.8s" repeatCount="indefinite"/></ellipse>
+        <ellipse cx="138" cy="48" rx="3" ry="5" fill="#90caf9"><animate attributeName="cy" values="42;85;42" dur="2s" repeatCount="indefinite"/></ellipse>
+        <circle cx="150" cy="115" r="12" fill="#fff3e0" stroke="#f9c74f" stroke-width="2"/>
+        <line x1="150" y1="103" x2="150" y2="88" stroke="#f9c74f" stroke-width="2"/>
+        <line x1="150" y1="95" x2="140" y2="85" stroke="#f9c74f" stroke-width="1.5"/>
+        <line x1="150" y1="95" x2="160" y2="85" stroke="#f9c74f" stroke-width="1.5"/>
+        <text x="85" y="65" text-anchor="middle" font-size="11" fill="white" font-weight="700">BDNF</text>
+        <rect x="210" y="30" rx="14" width="170" height="90" fill="#fff8e1" stroke="#f0c040" stroke-width="1.5"/>
+        <text x="295" y="55" text-anchor="middle" font-size="12" fill="#c8960c" font-weight="700">BDNF = Brain Fertilizer</text>
+        <text x="295" y="75" text-anchor="middle" font-size="11" fill="#666">Keeps neurons alive</text>
+        <text x="295" y="92" text-anchor="middle" font-size="11" fill="#666">Builds new connections</text>
+        <text x="295" y="109" text-anchor="middle" font-size="11" fill="#666">Boosts memory & learning</text>
+      </svg>
+    </div>
+    <div class="card-icon-bar">
+      <div class="num">2</div>
+      <h2>Running Fertilizes Your Brain</h2>
+    </div>
+    <div class="card-body">
+      <p>There's a protein called <strong>BDNF (Brain-Derived Neurotrophic Factor)</strong>. The name is a mouthful, but the idea is simple: it's fertilizer for your brain cells.</p>
+      <p>A single run makes your BDNF levels jump. A meta-analysis of 29 studies confirmed that <strong>even one exercise session meaningfully increases BDNF</strong>, and regular training raises your baseline levels over time -- so your brain stays nourished even on rest days.</p>
+      <div class="fun-fact">
+        <div class="label">Did You Know?</div>
+        People with higher BDNF levels scored better on nearly every type of memory test -- spatial memory, verbal memory, face recognition, you name it.
+      </div>
+    </div>
+  </div>
+
+  <!-- CARD 3: 10 Minutes -->
+  <div class="card">
+    <div class="illustration">
+      <svg width="400" height="140" viewBox="0 0 400 140" class="info-svg">
+        <circle cx="80" cy="70" r="40" fill="white" stroke="#4a7c59" stroke-width="3"/>
+        <circle cx="80" cy="70" r="35" fill="none" stroke="#e8f5e9" stroke-width="2"/>
+        <line x1="80" y1="70" x2="80" y2="38" stroke="#4a7c59" stroke-width="3" stroke-linecap="round"/>
+        <line x1="80" y1="70" x2="68" y2="52" stroke="#4a7c59" stroke-width="3" stroke-linecap="round"/>
+        <circle cx="80" cy="70" r="3" fill="#4a7c59"/>
+        <text x="80" y="100" text-anchor="middle" font-size="13" fill="#4a7c59" font-weight="900">10 MIN</text>
+        <path d="M130 70 L170 70" stroke="#6db07c" stroke-width="3" marker-end="url(#arrowhead)" stroke-linecap="round"/>
+        <defs><marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto"><polygon points="0 0, 10 3.5, 0 7" fill="#6db07c"/></marker></defs>
+        <circle cx="230" cy="65" r="35" fill="#e8f5e9" stroke="#6db07c" stroke-width="2"/>
+        <text x="230" y="60" text-anchor="middle" font-size="10" fill="#4a7c59" font-weight="700">PREFRONTAL</text>
+        <text x="230" y="75" text-anchor="middle" font-size="10" fill="#4a7c59" font-weight="700">CORTEX</text>
+        <circle cx="230" cy="65" r="35" fill="none" stroke="#f9c74f" stroke-width="2" opacity="0.6"><animate attributeName="r" values="35;42;35" dur="2s" repeatCount="indefinite"/><animate attributeName="opacity" values="0.6;0.1;0.6" dur="2s" repeatCount="indefinite"/></circle>
+        <text x="310" y="45" font-size="12" fill="#4a7c59" font-weight="700">Focus UP</text>
+        <text x="310" y="65" font-size="12" fill="#4a7c59" font-weight="700">Mood UP</text>
+        <text x="310" y="85" font-size="12" fill="#4a7c59" font-weight="700">Clarity UP</text>
+        <rect x="300" y="33" rx="6" width="90" height="62" fill="none" stroke="#6db07c" stroke-width="1" stroke-dasharray="4"/>
+      </svg>
+    </div>
+    <div class="card-icon-bar">
+      <div class="num">3</div>
+      <h2>10 Minutes of Easy Jogging Is Enough</h2>
+    </div>
+    <div class="card-body">
+      <p>Researchers at the University of Tsukuba in Japan discovered something wonderful: <strong>just 10 minutes of easy running</strong> significantly improved mood and executive function -- the mental skills you use to plan, focus, and multitask.</p>
+      <p>Their 2024 follow-up went even further: <strong>"very slow running"</strong> -- the lightest exercise intensity possible -- still activated the prefrontal cortex and boosted focus.</p>
+      <div class="highlight">If you can hold a conversation while you run, you're already upgrading your brain. Speed doesn't matter.</div>
+    </div>
+  </div>
+
+  <!-- TAKEAWAYS -->
+  <div class="takeaway">
+    <h2>Key Takeaways for Snail Runners</h2>
+    <div class="takeaway-item">
+      <div class="takeaway-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28"><path d="M14 4 L14 14 L20 18" fill="none" stroke="#4a7c59" stroke-width="2.5" stroke-linecap="round"/><circle cx="14" cy="14" r="12" fill="none" stroke="#4a7c59" stroke-width="2"/></svg>
+      </div>
+      <div class="takeaway-text">
+        <h3>You Don't Need to Be Fast</h3>
+        <p>Walking alone grew the hippocampus. Very slow jogging lit up the prefrontal cortex. Your comfortable pace is the right pace.</p>
+      </div>
+    </div>
+    <div class="takeaway-item">
+      <div class="takeaway-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28"><path d="M4 20 Q8 8 14 14 Q20 20 24 8" fill="none" stroke="#4a7c59" stroke-width="2.5" stroke-linecap="round"/></svg>
+      </div>
+      <div class="takeaway-text">
+        <h3>Consistency Is Everything</h3>
+        <p>BDNF rises with a single run, but regular training lifts your baseline levels too. A little bit every week, for a long time -- that's the formula.</p>
+      </div>
+    </div>
+    <div class="takeaway-item">
+      <div class="takeaway-icon">
+        <svg width="28" height="28" viewBox="0 0 28 28"><rect x="6" y="10" rx="3" width="16" height="12" fill="none" stroke="#4a7c59" stroke-width="2"/><path d="M6 10 L14 4 L22 10" fill="none" stroke="#4a7c59" stroke-width="2" stroke-linecap="round"/></svg>
+      </div>
+      <div class="takeaway-text">
+        <h3>Short Runs Still Count</h3>
+        <p>10 minutes is all it takes for your brain to respond. On busy days, a quick lap around the block is a legit cognitive boost.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TRY THIS WEEK -->
+  <div class="try-this">
+    <h2>This Week's Challenge</h2>
+    <p>Try this just once this week:</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <p>Write down one problem you've been mulling over</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <p>Run 10-15 min at whatever pace feels easy</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <p>Come back and revisit that note</p>
+      </div>
+    </div>
+    <p style="margin-top:16px; font-size:14px; color:#888;">Feel free to forget about it while you run. Let BDNF do the work for you.</p>
+  </div>
+
+  <!-- CLOSING -->
+  <div class="closing">
+    <p>While the world chases speed, we're out here running slow and growing our brains. Building new neurons, showering our cells with BDNF, thinking a little more clearly with every gentle step.</p>
+    <div class="quote">Running slow, living fully.</div>
+  </div>
+
+  <!-- SOURCES -->
+  <div class="sources">
+    <h3>References</h3>
+    <ol>
+      <li>Erickson, K. I. et al. (2011). Exercise training increases size of hippocampus and improves memory. <em>PNAS</em>, 108(7). <a href="https://www.pnas.org/doi/10.1073/pnas.1015950108">Link</a></li>
+      <li>Firth, J. et al. (2024). Exercise interventions preserve hippocampal volume: A meta-analysis. <em>Hippocampus</em>. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC11497212/">Link</a></li>
+      <li>Szuhany, K. L. et al. (2015). A meta-analytic review of the effects of exercise on BDNF. <em>J Psychiatric Research</em>, 60. <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC4314337/">Link</a></li>
+      <li>Li, Z. et al. (2022). Effects of different physical activities on BDNF. <em>Frontiers in Aging Neuroscience</em>, 14. <a href="https://www.frontiersin.org/journals/aging-neuroscience/articles/10.3389/fnagi.2022.981002/full">Link</a></li>
+      <li>Damrongthai, C. et al. (2021). Moderate running boosts mood and executive function. <em>Scientific Reports</em>, 11. <a href="https://www.nature.com/articles/s41598-021-01654-z">Link</a></li>
+      <li>Suwabe, K. et al. (2024). Slow running benefits: mood and prefrontal cognition at very light intensity. <em>bioRxiv</em>. <a href="https://www.biorxiv.org/content/10.1101/2024.01.29.575971v1">Link</a></li>
+    </ol>
+  </div>
+
+</div>
+</body>
+</html>
